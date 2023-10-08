@@ -19,7 +19,11 @@ const createNote = async (req, res, next) => {
   }
 
   try {
-    const note = await Note.create(req.body);
+    const note = await Note.create(req.body, {
+      new: true,
+      runValidators: true,
+      context: 'query',
+    });
     res.status(StatusCodes.CREATED).json({ note });
   } catch (error) {
     next(error);
