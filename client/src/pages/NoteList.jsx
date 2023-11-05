@@ -13,6 +13,10 @@ const NoteList = () => {
 
   return (
     <section className="p-6 sm:p-12 mb-4 w-[70%] flex-grow mx-auto max-w-5xl">
+      <h2 className="text-center font-bold text-3xl md:text-4xl text-[#34495e]  mt-4 mb-6 md:mb-10 tracking-wide leading-normal">
+        Your Personal Notes
+      </h2>
+
       <ul>
         {Array.isArray(notes) &&
           notesToShow.map((note) => (

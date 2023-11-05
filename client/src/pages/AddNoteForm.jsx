@@ -44,10 +44,10 @@ const AddNoteForm = () => {
   return (
     <form
       onSubmit={addNote}
-      className="mx-auto my-8 p-6 max-w-md md:max-w-2xl md:h-[15rem] w-full h-full bg-white shadow-md rounded-md"
+      className="flex flex-col justify-between mx-auto my-8 p-6 max-w-md md:max-w-2xl md:h-[25rem] w-full h-full bg-white shadow-md rounded-md"
     >
-      <h2 className="text-center text-2xl text-gray-700 mt-3 mb-3 md:mb-8">
-        Notes
+      <h2 className="text-center font-bold text-3xl md:text-4xl text-[#34495e]  mt-4 mb-6 md:mb-10 tracking-wide leading-normal">
+        Add Your Notes
       </h2>
       <div className="mb-4 md:mb-8">
         <input
@@ -60,7 +60,7 @@ const AddNoteForm = () => {
         />
       </div>
       <Button
-        className="bg-gray-700 text-white border font-bold tracking-wider border-gray-500 hover:bg-gray-600 rounded-md"
+        className="bg-gray-700 text-white border font-bold tracking-wider border-gray-500 hover:bg-gray-600 rounded-md mb-8"
         type="submit"
         disabled={loading}
       >

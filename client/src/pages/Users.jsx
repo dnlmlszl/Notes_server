@@ -22,15 +22,15 @@ const Users = () => {
         setLoading(false);
       }
     };
- 
+
     fetchUsers();
   }, [setLoading]);
 
-  if (loading) return <Loading />; 
+  if (loading) return <Loading />;
 
   return (
     <section className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4 md:mt-10 mx-4 md:mx-10 p-5 border rounded-md shadow-lg bg-white">
-      <h2 className=" col-span-2 md:col-span-4 text-xl font-bold mb-4 border-b pb-2 text-gray-800">
+      <h2 className=" col-span-2 md:col-span-4 text-2xl font-bold mb-4 border-b pb-2 text-[#34495e]">
         Users info
       </h2>
       {dashboardUsers &&

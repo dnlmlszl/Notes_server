@@ -107,8 +107,8 @@ const User = () => {
   return (
     <article className="p-4 bg-white rounded-lg shadow-md my-4 md:my-8 w-1/2 md:w-3/4">
       <div className="flex justify-between items-center">
-        <h2 className=" col-span-2 md:col-span-4 text-xl font-bold mb-4 border-b pb-2 text-gray-800">
-          User details
+        <h2 className="text-center font-bold text-3xl md:text-4xl text-[#34495e]  mt-4 mb-6 md:mb-10 tracking-wide leading-normal">
+          User Details
         </h2>
         {userMatch && !isEditing && (
           <FaEdit

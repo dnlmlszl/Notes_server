@@ -69,9 +69,9 @@ const Register = () => {
   return (
     <section className="flex flex-col items-start justify-center bg-gray-100">
       <div className="p-6 mt-4 text-left bg-white shadow-lg rounded-lg w-96">
-        <h3 className="text-2xl font-bold text-center text-gray-800">
+        <h2 className="text-center font-bold text-3xl md:text-4xl text-[#34495e]  mt-4 mb-6 md:mb-10 tracking-wide leading-normal">
           Register
-        </h3>
+        </h2>
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
@@ -129,7 +129,7 @@ const Register = () => {
           <div className="flex items-center justify-between">
             <Button
               type="submit"
-              className="px-6 py-2 text-white bg-gray-500 rounded-md hover:bg-gray-600"
+              className="px-6 py-2 text-white bg-gray-700 rounded-md hover:bg-gray-500"
               disabled={
                 !passwordsMatch ||
                 !formData.username ||
