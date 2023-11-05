@@ -8,9 +8,14 @@ const {
   deleteNote,
   updateNote,
 } = require('../controllers/noteController');
+const userExtractor = require('../utils/userExtractor');
 
-router.route('/').post(createNote).get(getNotes);
+router.route('/').post(userExtractor, createNote).get(userExtractor, getNotes);
 
-router.route('/:id').get(getSingleNote).put(updateNote).delete(deleteNote);
+router
+  .route('/:id')
+  .get(userExtractor, getSingleNote)
+  .put(userExtractor, updateNote)
+  .delete(userExtractor, deleteNote);
 
 module.exports = router;

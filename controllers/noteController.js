@@ -1,75 +1,83 @@
 const Note = require('../models/Notes');
+const User = require('../models/User');
 const { StatusCodes } = require('http-status-codes');
 
-const getNotes = async (req, res, next) => {
-  try {
-    const notes = await Note.find({});
-    res.status(StatusCodes.OK).json({ notes, count: notes.length });
-  } catch (error) {
-    next(error);
-  }
+const getNotes = async (req, res) => {
+  const notes = await Note.find({ user: req.userId }).populate('user', {
+    username: 1,
+    name: 1,
+  });
+  res.status(StatusCodes.OK).json({ notes, count: notes.length });
 };
 
-const createNote = async (req, res, next) => {
-  const body = req.body;
-  if (body.content === undefined) {
+const createNote = async (req, res) => {
+  const { content, important = false } = req.body;
+
+  if (!content) {
     return res
       .status(StatusCodes.BAD_REQUEST)
-      .json({ error: 'Missing content' });
+      .json({ error: 'Missing content or user' });
   }
 
-  try {
-    const note = await Note.create(req.body, {
-      new: true,
-      runValidators: true,
-      context: 'query',
-    });
-    res.status(StatusCodes.CREATED).json({ note });
-  } catch (error) {
-    next(error);
+  const user = await User.findById(req.userId);
+  // const user = await User.findById(userId);
+
+  if (!user) {
+    return res.status(StatusCodes.NOT_FOUND).json({ error: 'user not found' });
   }
+
+  const note = new Note({
+    content: content,
+    important: important === undefined ? false : important,
+    user: user.id,
+  });
+
+  const savedNote = await note.save();
+
+  user.notes = user.notes.concat(savedNote.id);
+  await user.save();
+
+  res.status(StatusCodes.CREATED).json(savedNote);
 };
 
-const getSingleNote = async (req, res, next) => {
+const getSingleNote = async (req, res) => {
   const { id: noteId } = req.params;
-  try {
-    const note = await Note.findOne({ _id: noteId });
+  const note = await Note.findOne({ _id: noteId });
 
-    if (!note) {
-      return res
-        .status(StatusCodes.NOT_FOUND)
-        .json({ error: `No note with id ${noteId}` });
-    }
-
-    res.status(StatusCodes.OK).json({ note });
-  } catch (error) {
-    next(error);
+  if (!note) {
+    return res
+      .status(StatusCodes.NOT_FOUND)
+      .json({ error: `No note with id ${noteId}` });
   }
+
+  res.status(StatusCodes.OK).json({ note });
 };
 
-const deleteNote = async (req, res, next) => {
+const deleteNote = async (req, res) => {
   const { id: noteId } = req.params;
-  try {
-    const note = await Note.findOne({ _id: noteId });
+  const userId = req.userId;
 
-    if (!note) {
-      return res
-        .status(StatusCodes.NOT_FOUND)
-        .json({ error: `No note with id ${noteId}` });
-    }
+  const note = await Note.findOne({ _id: noteId, user: userId });
 
-    await note.deleteOne();
-    res
-      .status(StatusCodes.OK)
-      .json({ msg: 'Success! Note removed from database.' });
-  } catch (error) {
-    next(error);
+  if (!note) {
+    return res
+      .status(StatusCodes.NOT_FOUND)
+      .json({ error: `No note with id ${noteId}` });
   }
+
+  await note.deleteOne();
+
+  await User.updateOne({ _id: userId }, { $pull: { notes: noteId } });
+
+  res
+    .status(StatusCodes.NO_CONTENT)
+    .json({ msg: 'Success! Note removed from database.' });
 };
 
-const updateNote = async (req, res, next) => {
+const updateNote = async (req, res) => {
   const { id: noteId } = req.params;
   const { content, important } = req.body;
+  const userId = req.userId;
 
   if (content === undefined || important === undefined) {
     return res
@@ -77,23 +85,18 @@ const updateNote = async (req, res, next) => {
       .json({ error: 'Content and/or important values are missing' });
   }
 
-  try {
-    const updatedNote = await Note.findOneAndUpdate(
-      { _id: noteId },
-      { content, important },
-      { new: true, runValidators: true, context: 'query' }
-    );
+  const note = await Note.findOne({ _id: noteId, user: userId });
 
-    if (!updatedNote) {
-      return res
-        .status(StatusCodes.NOT_FOUND)
-        .json({ error: 'Note not found' });
-    }
-
-    res.status(StatusCodes.OK).json({ updatedNote });
-  } catch (error) {
-    next(error);
+  if (!note) {
+    return res.status(StatusCodes.NOT_FOUND).json({ error: 'Note not found' });
   }
+
+  note.content = content;
+  note.important = important;
+
+  const updatedNote = await note.save();
+
+  res.status(StatusCodes.OK).json({ note: updatedNote });
 };
 
 module.exports = {
