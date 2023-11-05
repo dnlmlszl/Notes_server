@@ -67,9 +67,9 @@ const Register = () => {
   if (loading) return <Loading />;
 
   return (
-    <section className="flex flex-col items-start justify-center bg-gray-100">
-      <div className="p-6 mt-4 text-left bg-white shadow-lg rounded-lg w-96">
-        <h2 className="text-center font-bold text-3xl md:text-4xl text-[#34495e]  mt-4 mb-6 md:mb-10 tracking-wide leading-normal">
+    <section className="flex flex-col w-full max-w-lg items-start justify-center bg-gray-100">
+      <div className="p-6 mt-4 text-left bg-white shadow-lg rounded-lg">
+        <h2 className="text-center font-bold text-3xl md:text-4xl text-[#34495e] mt-4 mb-6 md:mb-10 tracking-wide leading-normal">
           Register
         </h2>
 
@@ -84,7 +84,7 @@ const Register = () => {
               value={formData.username}
               onChange={handleChange}
               required
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-500"
+              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-1 focus:ring-gray-500"
             />
           </div>
           <div>
@@ -97,7 +97,7 @@ const Register = () => {
               value={formData.name}
               onChange={handleChange}
               required
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-500"
+              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-1 focus:ring-gray-500"
             />
           </div>
           <div>
@@ -110,7 +110,7 @@ const Register = () => {
               value={formData.password}
               onChange={handleChange}
               required
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-500"
+              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-1 focus:ring-gray-500"
             />
           </div>
           <div>
@@ -123,7 +123,7 @@ const Register = () => {
               value={formData.confirmPassword}
               onChange={handleChange}
               required
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-500"
+              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-1 focus:ring-gray-500"
             />
           </div>
           <div className="flex items-center justify-between">
