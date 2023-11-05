@@ -15,7 +15,7 @@ const Sidebar = ({ closeSidebar }) => {
       className={`${
         isFishAndChipsOpen ? 'block' : 'hidden'
       } flex flex-col items-start justify-start fixed top-[4.5rem] left-0 ${
-        user ? 'h-1/4' : 'h-1/5'
+        user ? 'h-1/3' : 'h-1/4'
       } bg-gray-800 bg-opacity-70 backdrop-blur-md  p-4 pt-5 z-10 lg:hidden`}
     >
       <NavLink to="/" className={linkClass} onClick={closeSidebar}>
